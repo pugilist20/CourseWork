@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<nav>
+    <ul class="nav-bar">
+        <li><a href="#hotels">Отели</a></li>
+        <li><a href="#rooms">Номера</a></li>
+        <li><a href="#guests">Постояльцы</a></li>
+        <li><a href="#bookings">Бронирования</a></li>
+        <li><a href="#provisions">Услуги</a></li>
+        <li><a href="#bookingProvisions">Бронирование услуг</a></li>
+    </ul>
+</nav>
+
+<section id="hotels" class="hidden">
+    <div id="hotel-functions">
+        <!-- Форма для поиска отеля по ID -->
+        <div class="function">
+            <input type="number" id="hotelId" placeholder="Введите ID отеля">
+            <button onclick="findHotelById()">Найти отель по ID</button>
+        </div>
+
+        <!-- Форма для поиска отелей по местоположению -->
+        <div class="function">
+            <input type="text" id="hotelLocation" placeholder="Введите местоположение">
+            <button onclick="findHotelByLocation()">Фильтр по местоположению</button>
+        </div>
+
+        <!-- Форма для фильтрации отелей по рейтингу -->
+        <div class="function">
+            <input type="number" step="0.1" id="hotelRating" placeholder="Введите минимальный рейтинг">
+            <button onclick="findHotelByRating()">Фильтр по рейтингу</button>
+        </div>
+
+        <div class="function">
+            <input type="number" step="0.1" id="hotelDistance" placeholder="Введите максимальное расстояние (км)">
+            <button onclick="findHotelByDistance()">Фильтр по расстоянию</button>
+        </div>
+
+        <!-- Форма для добавления нового отеля -->
+        <div class="function">
+            <input type="text" id="newHotelName" placeholder="Название отеля">
+            <input type="text" id="newHotelLocation" placeholder="Местоположение">
+            <input type="number" step="0.1" id="newHotelRating" placeholder="Рейтинг">
+            <button onclick="saveHotel()">Добавить отель</button>
+        </div>
+
+        <!-- Форма для обновления информации об отеле -->
+        <div class="function">
+            <input type="number" id="updateHotelId" placeholder="ID отеля для обновления">
+            <input type="text" id="updateHotelName" placeholder="Новое название">
+            <input type="text" id="updateHotelLocation" placeholder="Новое местоположение">
+            <input type="number" step="0.1" id="updateHotelRating" placeholder="Новый рейтинг">
+            <button onclick="updateHotel()">Обновить отель</button>
+        </div>
+
+        <!-- Форма для удаления отеля по ID -->
+        <div class="function">
+            <input type="number" id="deleteHotelId" placeholder="ID отеля для удаления">
+            <button onclick="deleteHotel()">Удалить отель</button>
+            <button onclick="deleteHotelCascade()">Удалить отель со связями</button>
+        </div>
+    </div>
+
+</section>
+
+
+<section id="guests" class="hidden">
+    <div id="guest-functions">
+        <!-- Форма для поиска постояльца по ID -->
+        <div class="function">
+            <input type="number" id="guestId" placeholder="Введите ID постояльца">
+            <button onclick="findGuestById()">Найти постояльца по ID</button>
+        </div>
+
+        <!-- Форма для поиска постояльца по email -->
+        <div class="function">
+            <input type="email" id="guestEmail" placeholder="Введите email">
+            <button onclick="findGuestByEmail()">Найти постояльца по email</button>
+        </div>
+
+        <!-- Форма для поиска постояльца по номеру телефона -->
+        <div class="function">
+            <input type="text" id="guestPhoneNumber" placeholder="Введите номер телефона">
+            <button onclick="findGuestByPhoneNumber()">Найти постояльца по номеру телефона</button>
+        </div>
+
+        <div class="function">
+            <input type="text" id="findGuestByHotelId" placeholder="Введите номер отеля">
+            <button onclick="findGuestByHotelId()">Найти постояльца по номеру отеля</button>
+        </div>
+
+        <!-- Форма для добавления нового постояльца -->
+        <div class="function">
+            <input type="text" id="newGuestFirstName" placeholder="Имя">
+            <input type="text" id="newGuestLastName" placeholder="Фамилия">
+            <input type="text" id="newGuestPhoneNumber" placeholder="Номер телефона">
+            <input type="email" id="newGuestEmail" placeholder="Email">
+            <button onclick="saveGuest()">Добавить постояльца</button>
+        </div>
+
+        <!-- Форма для обновления данных постояльца -->
+        <div class="function">
+            <input type="number" id="updateGuestId" placeholder="ID постояльца">
+            <input type="text" id="updateGuestFirstName" placeholder="Новое имя">
+            <input type="text" id="updateGuestLastName" placeholder="Новая фамилия">
+            <input type="text" id="updateGuestPhoneNumber" placeholder="Новый номер телефона">
+            <input type="email" id="updateGuestEmail" placeholder="Новый email">
+            <button onclick="updateGuest()">Обновить постояльца</button>
+        </div>
+
+        <!-- Форма для удаления постояльца по ID -->
+        <div class="function">
+            <input type="number" id="deleteGuestId" placeholder="ID постояльца">
+            <button onclick="deleteGuest()">Удалить постояльца</button>
+            <button onclick="deleteGuestCascade()">Удалить постояльца со связями</button>
+        </div>
+    </div>
+</section>
+
+<section id="rooms" class="hidden">
+    <div id="room-functions">
+        <!-- Форма для поиска номера по ID -->
+        <div class="function">
+            <input type="number" id="roomId" placeholder="Введите ID номера">
+            <button onclick="findRoomById()">Найти номер по ID</button>
+        </div>
+
+        <!-- Форма для поиска номеров по типу -->
+        <div class="function">
+            <input type="text" id="roomType" placeholder="Введите тип номера">
+            <button onclick="findRoomsByType()">Найти номера по типу</button>
+        </div>
+
+        <!-- Форма для поиска номеров по ID отеля -->
+        <div class="function">
+            <input type="number" id="findRoomsByHotelId" placeholder="Введите ID отеля">
+            <button onclick="findRoomsByHotelId()">Найти номера по ID отеля</button>
+        </div>
+
+        <div class="function">
+            <input type="number" step="0.1" id="findRoomsBySize" placeholder="Введите минимальную площадь номера">
+            <button onclick="findRoomsBySize()">Найти номера по площади</button>
+        </div>
+
+        <!-- Форма для добавления нового номера -->
+        <div class="function">
+            <input type="text" id="newRoomType" placeholder="Тип номера">
+            <input type="number" id="newRoomHotelId" placeholder="ID отеля">
+            <input type="number" id="newRoomPrice" placeholder="Цена номера">
+            <button onclick="saveRoom()">Добавить номер</button>
+        </div>
+
+        <!-- Форма для обновления данных номера -->
+        <div class="function">
+            <input type="number" id="updateRoomId" placeholder="ID номера">
+            <input type="number" id="updateRoomHotelId" placeholder="Новый ID отеля">
+            <input type="text" id="updateRoomType" placeholder="Новый тип номера">
+            <input type="number" id="updateRoomPrice" placeholder="Новая цена номера">
+            <button onclick="updateRoom()">Обновить номер</button>
+        </div>
+
+
+        <!-- Форма для удаления номера по ID -->
+        <div class="function">
+            <input type="number" id="deleteRoomId" placeholder="ID номера">
+            <button onclick="deleteRoom()">Удалить номер</button>
+            <button onclick="deleteRoomCascade()">Удалить номер со связями</button>
+        </div>
+    </div>
+</section>
+
+<section id="bookings" class="hidden">
+    <div id="booking-functions">
+        <!-- Форма для поиска бронирования по ID -->
+        <div class="function">
+            <label for="bookingId"></label><input type="number" id="bookingId" placeholder="Введите ID бронирования">
+            <button onclick="findBookingById()">Найти бронирование по ID</button>
+        </div>
+
+        <!-- Форма для поиска бронирования по ID постояльца -->
+        <div class="function">
+            <label for="bookingByGuestId"></label><input type="number" id="bookingByGuestId" placeholder="Введите ID постояльца">
+            <button onclick="findBookingsByGuestId()">Найти бронирования по ID постояльца</button>
+        </div>
+
+        <!-- Форма для поиска бронирования по ID номера -->
+        <div class="function">
+            <label for="bookingByRoomId"></label><input type="number" id="bookingByRoomId" placeholder="Введите ID номера">
+            <button onclick="findBookingsByRoomId()">Найти бронирования по ID номера</button>
+        </div>
+
+        <!-- Форма для поиска бронирования по диапазону дат -->
+        <div class="function">
+            <label for="checkInDate"></label><input type="date" id="checkInDate" placeholder="Дата заезда">
+            <label for="checkOutDate"></label><input type="date" id="checkOutDate" placeholder="Дата выезда">
+            <button onclick="findBookingsByDateRange()">Найти бронирования по датам</button>
+        </div>
+
+        <!-- Форма для добавления нового бронирования -->
+        <div class="function">
+            <label for="newGuestId"></label><input type="number" id="newGuestId" placeholder="ID постояльца">
+            <label for="newRoomId"></label><input type="number" id="newRoomId" placeholder="ID номера">
+            <label for="newCheckInDate"></label><input type="date" id="newCheckInDate" placeholder="Дата заезда">
+            <label for="newCheckOutDate"></label><input type="date" id="newCheckOutDate" placeholder="Дата выезда">
+            <button onclick="saveBooking()">Добавить бронирование</button>
+        </div>
+
+        <!-- Форма для обновления бронирования -->
+        <div class="function">
+            <label for="updateBookingId"></label><input type="number" id="updateBookingId" placeholder="ID бронирования">
+            <label for="updateBookingGuestId"></label><input type="number" id="updateBookingGuestId" placeholder="Новый ID постояльца">
+            <label for="updateBookingRoomId"></label><input type="number" id="updateBookingRoomId" placeholder="Новый ID номера">
+            <label for="updateCheckInDate"></label><input type="date" id="updateCheckInDate" placeholder="Новая дата заезда">
+            <label for="updateCheckOutDate"></label><input type="date" id="updateCheckOutDate" placeholder="Новая дата выезда">
+            <button onclick="updateBooking()">Обновить бронирование</button>
+        </div>
+
+        <!-- Форма для удаления бронирования -->
+        <div class="function">
+            <input type="number" id="deleteBookingId" placeholder="ID бронирования">
+            <button onclick="deleteBooking()">Удалить бронирование</button>
+            <button onclick="deleteBookingCascade()">Удалить бронирование со связями</button>
+        </div>
+    </div>
+</section>
+
+<section id="provisions" class="hidden">
+    <div id="provision-functions">
+        <!-- Форма для поиска услуги по ID -->
+        <div class="function">
+            <input type="number" id="provisionProvisionId" placeholder="Введите ID услуги">
+            <button onclick="findProvisionById()">Найти услугу по ID</button>
+        </div>
+
+        <!-- Форма для поиска услуги по ID отеля -->
+        <div class="function">
+            <input type="number" id="provisionHotelId" placeholder="Введите ID отеля">
+            <button onclick="findProvisionByHotelId()">Найти услугу по ID отеля</button>
+        </div>
+
+        <!-- Форма для добавления новой услуги -->
+        <div class="function">
+            <input type="number" id="newHotelId" placeholder="ID отеля">
+            <input type="text" id="newProvisionName" placeholder="Название услуги">
+            <input type="text" id="newProvisionDescription" placeholder="Описание услуги">
+            <button onclick="saveProvision()">Добавить услугу</button>
+        </div>
+
+        <!-- Форма для обновления услуги -->
+        <div class="function">
+            <input type="number" id="updateProvisionId" placeholder="ID услуги">
+            <input type="text" id="updateProvisionName" placeholder="Новое название услуги">
+            <input type="text" id="updateProvisionDescription" placeholder="Новое описание услуги">
+            <button onclick="updateProvision()">Обновить услугу</button>
+        </div>
+
+        <!-- Форма для удаления услуги -->
+        <div class="function">
+            <input type="number" id="deleteProvisionId" placeholder="ID услуги">
+            <button onclick="deleteProvision()">Удалить услугу</button>
+            <button onclick="deleteProvisionCascade()">Удалить услугу со связями</button>
+        </div>
+    </div>
+</section>
+
+<section id="bookingProvisions" class="hidden">
+    <div id="booking-provision-functions">
+        <!-- Форма для поиска бронирования услуги по ID -->
+        <div class="function">
+            <input type="number" id="bookingProvisionId" placeholder="Введите ID бронирования услуги">
+            <button onclick="findBookingProvisionById()">Найти бронирование услуги по ID</button>
+        </div>
+
+        <!-- Форма для поиска бронирования услуги по ID бронирования -->
+        <div class="function">
+            <input type="number" id="findBookingProvisionBookingId" placeholder="Введите ID бронирования">
+            <button onclick="findBookingProvisionsByBookingId()">Найти бронирования услуги по ID бронирования</button>
+        </div>
+
+        <!-- Форма для поиска бронирования услуги по ID услуги -->
+        <div class="function">
+            <input type="number" id="provisionId" placeholder="Введите ID услуги">
+            <button onclick="findBookingProvisionsByProvisionId()">Найти бронирования услуги по ID услуги</button>
+        </div>
+
+        <!-- Форма для добавления нового бронирования услуги -->
+        <div class="function">
+            <input type="number" id="newBookingId" placeholder="ID бронирования">
+            <input type="number" id="newProvisionId" placeholder="ID услуги">
+            <button onclick="saveBookingProvision()">Добавить бронирование услуги</button>
+        </div>
+
+        <!-- Форма для обновления бронирования услуги -->
+        <div class="function">
+            <input type="number" id="updateBookingProvisionId" placeholder="ID бронирования услуги">
+            <input type="number" id="updateBookingProvisionBookingId" placeholder="Новый ID бронирования">
+            <input type="number" id="updateBookingProvisionProvisionId" placeholder="Новый ID услуги">
+            <button onclick="updateBookingProvision()">Обновить бронирование услуги</button>
+        </div>
+
+        <!-- Форма для удаления бронирования услуги -->
+        <div class="function">
+            <input type="number" id="deleteBookingProvisionId" placeholder="ID бронирования услуги">
+            <button onclick="deleteBookingProvision()">Удалить бронирование услуги</button>
+        </div>
+    </div>
+</section>
+
+<section id="content-section">
+    <h1 id="content-title"></h1>
+    <div id="content" class="hidden">
+        <ul>
+        </ul>
+    </div>
+</section>
+
+
+
+
+
+<script src="js/script.js"></script>
+</body>
+
+</html>

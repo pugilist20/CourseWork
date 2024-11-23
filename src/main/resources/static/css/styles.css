@@ -1,0 +1,119 @@
+/* Основные стили для body */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Стили для навигации */
+nav {
+    width: 100%;
+    background-color: #333;
+}
+
+.nav-bar {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+}
+
+.nav-bar li {
+    margin: 0 15px;
+}
+
+.nav-bar a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-bar a:hover {
+    text-decoration: underline;
+}
+
+/* Стили для контейнера с содержимым */
+#content {
+    max-width: 800px;
+    text-align: center;
+    margin-top: 20px;
+    height: 200px;        /* Высота контейнера */
+    overflow-y: auto;     /* Вертикальная прокрутка */
+    border: 1px solid #ccc;  /* Граница вокруг списка */
+    border-radius: 5px; /* Скругленные края */
+    padding: 10px;        /* Отступы внутри контейнера */
+}
+
+/* Стили для заголовка */
+#content-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Стили для элементов списка */
+.item {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.hidden {
+    display: none;
+}
+
+button {
+    background-color: #007bff; /* Синий цвет фона */
+    color: white; /* Белый цвет текста */
+    border: none; /* Убираем рамку */
+    padding: 10px 20px; /* Внутренние отступы */
+    margin: 5px; /* Внешние отступы между кнопками */
+    font-size: 16px; /* Размер текста */
+    border-radius: 5px; /* Скругленные края */
+    cursor: pointer; /* Указатель курсора */
+    transition: background-color 0.3s ease; /* Плавный переход при наведении */
+}
+
+/* Добавляем эффект при наведении */
+button:hover {
+    background-color: #0056b3; /* Темнее синий при наведении */
+}
+
+/* Активное состояние */
+button:active {
+    background-color: #003f7f; /* Ещё темнее при клике */
+    transform: scale(0.98); /* Легкое уменьшение для эффекта нажатия */
+}
+
+/* Добавляем тени для объема */
+button {
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Стили для контейнера кнопок */
+#hotel-functions, #guest-functions, #room-functions, #booking-functions, #provision-functions, #booking-provision-functions{
+    display: flex;
+    flex-direction: column; /* Располагаем кнопки вертикально */
+    align-items: center; /* Центруем кнопки по горизонтали */
+    margin-top: 20px; /* Отступ сверху */
+}
+
+.scrollable-list {
+
+}
+ul {
+    list-style-type: none; /* Убираем маркеры списка */
+    padding: 0;
+}
+/*li {*/
+/*    padding: 8px;         !* Отступы внутри элементов списка *!*/
+/*    border-bottom: 1px solid #ddd;  !* Разделительная линия между элементами *!*/
+/*}*/
+
