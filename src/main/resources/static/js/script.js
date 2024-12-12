@@ -17,13 +17,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (item.hotelId) {
                         div.innerHTML = `<p>${item.hotelId} Отель: ${item.name || ''}, город: ${item.location || ''}, рейтинг: ${item.rating || ''}, ${item.distance || ''} км до центра</p>`;
                     } else if (item.roomId) {
-                        div.innerHTML = `<p>${item.roomId} Номер типа ${item.roomType || ''} в отеле ${item.hotel.name} (${item.hotel.hotelId}), стоимость: ${item.price || ''}$</p>`;
+                        div.innerHTML = `<p>${item.roomId} Номер типа ${item.roomType || ''} в отеле ${item.hotel.name} (${item.hotel.hotelId}), стоимость: ${item.price || ''} руб, площадью ${item.size} кв.м</p>`;
                     } else if (item.guestId) {
                         div.innerHTML = `<p>${item.guestId} Постоялец: ${item.firstName || ''} ${item.lastName || ''}, телефон: ${item.phoneNumber || ''}, email: ${item.email || ''} в отеле ${item.hotel.name} (${item.hotel.hotelId})</p>`;
                     } else if (item.bookingId) {
                         div.innerHTML = `<p>${item.bookingId} Бронирование: ${item.room.roomId || ''} номер типа ${item.room.roomType || ''} в отеле ${item.room.hotel.name} (${item.room.hotel.hotelId}) арендован постояльцем ${item.guest.firstName || ''} ${item.guest.lastName || ''} (${item.guest.guestId}). Заезд: ${item.checkInDate || ''}, выезд: ${item.checkOutDate || ''}</p>`;
                     } else if (item.provisionId) {
-                        div.innerHTML = `<p>${item.provisionId} Услуга: ${item.provisionName || ''} в отеле ${item.hotel.name} (${item.hotel.hotelId}), цена: ${item.price || ''}$</p>`;
+                        div.innerHTML = `<p>${item.provisionId} Услуга: ${item.provisionName || ''} в отеле ${item.hotel.name} (${item.hotel.hotelId}), цена: ${item.price || ''} руб</p>`;
                     } else if (item.bookingProvisionId) {
                         div.innerHTML = `<p>${item.bookingProvisionId} Бронирование услуги: ${item.provision?.provisionName || ''} для номера ${item.booking?.room?.roomId || ''} в отеле ${item.booking.room.hotel.name} (${item.booking.room.hotel.hotelId})</p>`;
                     }
@@ -321,7 +321,8 @@ document.addEventListener('DOMContentLoaded', () => {
         })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Ошибка при удалении отеля');
+                    alert('Ошибка при удалении отеля');
+                    throw new Error();
                 }
                 alert('Отель успешно удален');
                 loadData('/api/univer/hotels', 'hotel-list', 'Список отелей');
@@ -491,7 +492,9 @@ document.addEventListener('DOMContentLoaded', () => {
         })
             .then(response => response.text())
             .then(message => {
-                alert(message);
+                if(message.includes("Отель с указанным ID не существует")) {
+                    alert("Отель с указанным ID не существует");
+                }
                 loadData('/api/univer/guests', 'guest-list', 'Список постояльцев');
             })
             .catch(error => console.error('Ошибка при сохранении постояльца:', error));
@@ -542,7 +545,12 @@ document.addEventListener('DOMContentLoaded', () => {
         })
             .then(response => response.text())
             .then(message => {
-                alert(message);
+                if(message.includes("Отель с указанным ID не существует")) {
+                    alert("Отель с указанным ID не существует");
+                }
+                if(message.includes("Постоялец с указанным ID не существует")) {
+                    alert("Постоялец с указанным ID не существует");
+                }
                 loadData('/api/univer/guests', 'guest-list', 'Список постояльцев');
             })
             .catch(error => console.error('Ошибка при обновлении постояльца:', error));
@@ -560,9 +568,12 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch(`/api/univer/guests/deleteGuest/${guestId}`, {
             method: 'DELETE'
         })
-            .then(response => response.text())
-            .then(message => {
-                alert(message);
+            .then(response => {
+                if(!response.ok) {
+                    alert('Ошибка при удалении постояльца');
+                    throw new Error();
+                }
+                alert("Постоялец успешно удален");
                 loadData('/api/univer/guests', 'guest-list', 'Список постояльцев');
             })
             .catch(error => console.error('Ошибка при удалении постояльца:', error));
@@ -579,9 +590,12 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch(`/api/univer/guests/deleteGuestCascade/${guestId}`, {
             method: 'DELETE'
         })
-            .then(response => response.text())
-            .then(message => {
-                alert(message);
+            .then(response => {
+                if(!response.ok) {
+                    alert('Ошибка при удалении постояльца');
+                    throw new Error();
+                }
+                alert("Постоялец успешно удален");
                 loadData('/api/univer/guests', 'guest-list', 'Список постояльцев');
             })
             .catch(error => console.error('Ошибка при удалении постояльца:', error));
@@ -628,7 +642,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     alert('Номер не найден');
                 }
             })
-            .catch(error => console.error('Ошибка при загрузке номера по ID:', error));
+            .catch(error => alert('Номер не найден'));
     }
 
     // Функция для поиска номеров по типу
@@ -673,7 +687,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function findRoomsBySize() {
         const size = document.getElementById('findRoomsBySize').value.trim();
-        if (!size || isNaN(size) || rating <= 0) {
+        if (!size || isNaN(size) || size <= 0) {
             alert('Пожалуйста, введите корректную площадь');
             return;
         }
@@ -695,6 +709,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const hotelId = document.getElementById('newRoomHotelId').value.trim();
         const roomType = document.getElementById('newRoomType').value.trim();
         const price = document.getElementById('newRoomPrice').value.trim();
+        const size = document.getElementById('newRoomSize').value.trim();
 
         if (!hotelId || isNaN(hotelId) || hotelId <= 0) {
             alert('Пожалуйста, введите корректный ID отеля');
@@ -711,7 +726,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const roomRequest = { hotelId, roomType, price };
+        if (!size || isNaN(price) || size <= 10) {
+            alert('Пожалуйста, введите корректную цену номера');
+            return;
+        }
+        const roomRequest = { hotelId, roomType, price, size };
 
         fetch('/api/univer/rooms/saveRoom', {
             method: 'POST',
@@ -720,7 +739,9 @@ document.addEventListener('DOMContentLoaded', () => {
         })
             .then(response => response.text())
             .then(message => {
-                alert(message);
+                if(message.includes("Отель с указанным ID не существует")) {
+                    alert("Отель с указанным ID не существует");
+                }
                 loadData('/api/univer/rooms', 'room-list', 'Список номеров');
             })
             .catch(error => console.error('Ошибка при добавлении номера:', error));
@@ -732,6 +753,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const hotelId = document.getElementById('updateRoomHotelId').value.trim();
         const roomType = document.getElementById('updateRoomType').value.trim();
         const price = document.getElementById('updateRoomPrice').value.trim();
+        const size = document.getElementById('updateRoomSize').value.trim();
 
         if (!roomId || isNaN(roomId) || roomId <= 0) {
             alert('Пожалуйста, введите корректный ID номера для обновления');
@@ -753,7 +775,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const roomRequest = { roomId, hotelId, roomType, price };
+        if (!size || isNaN(price) || size <= 10) {
+            alert('Пожалуйста, введите корректную цену номера');
+            return;
+        }
+
+        const roomRequest = { roomId, hotelId, roomType, price, size };
 
         fetch('/api/univer/rooms/updateRoom', {
             method: 'POST',
@@ -762,7 +789,12 @@ document.addEventListener('DOMContentLoaded', () => {
         })
             .then(response => response.text())
             .then(message => {
-                alert(message);
+                if(message.includes("Отель с указанным ID не существует")) {
+                    alert("Отель с указанным ID не существует");
+                }
+                if(message.includes("Номер с указанным ID не существует")) {
+                    alert("Номер с указанным ID не существует");
+                }
                 loadData('/api/univer/rooms', 'room-list', 'Список номеров');
             })
             .catch(error => console.error('Ошибка при обновлении номера:', error));
@@ -777,9 +809,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         fetch(`/api/univer/rooms/deleteRoom/${roomId}`, { method: 'DELETE' })
-            .then(response => response.text())
-            .then(message => {
-                alert(message);
+            .then(response => {
+                if (!response.ok) {
+                    alert("Ошибка при удалении номера");
+                    throw new Error();
+                }
+                alert("Номер успешно удален");
                 loadData('/api/univer/rooms', 'room-list', 'Список номеров');
             })
             .catch(error => console.error('Ошибка при удалении номера:', error));
@@ -793,9 +828,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         fetch(`/api/univer/rooms/deleteRoomCascade/${roomId}`, { method: 'DELETE' })
-            .then(response => response.text())
-            .then(message => {
-                alert(message);
+            .then(response => {
+                if (!response.ok) {
+                    alert("Ошибка при удалении номера");
+                    throw new Error();
+                }
+                alert("Номер успешно удален");
                 loadData('/api/univer/rooms', 'room-list', 'Список номеров');
             })
             .catch(error => console.error('Ошибка при удалении номера:', error));
@@ -808,7 +846,7 @@ document.addEventListener('DOMContentLoaded', () => {
         rooms.forEach(item => {
             const div = document.createElement('div');
             div.className = 'item';
-            div.innerHTML = `<p>${item.roomId} Номер типа ${item.roomType || ''} в отеле ${item.hotel.name}(${item.hotel.hotelId}), стоимость: ${item.price || ''}$</p>`;
+            div.innerHTML = `<p>${item.roomId} Номер типа ${item.roomType || ''} в отеле ${item.hotel.name}(${item.hotel.hotelId}), стоимость: ${item.price || ''} руб, площадью ${item.size} кв.м</p>`;
             roomList.appendChild(div);
         });
     }
@@ -939,7 +977,21 @@ document.addEventListener('DOMContentLoaded', () => {
         })
             .then(response => response.text())
             .then(message => {
-                alert(message);
+                if(message.includes("Гость с указанным ID не существует")) {
+                    alert("Гость с указанным ID не существует");
+                }
+                if(message.includes("Комната с указанным ID не существует")) {
+                    alert("Комната с указанным ID не существует");
+                }
+                if(message.includes("Отели не совпадают")) {
+                    alert("Отели не совпадают");
+                }
+                if(message.includes("Дата заезда не может быть позже даты выезда")) {
+                    alert("Дата заезда не может быть позже даты выезда");
+                }
+                if(message.includes("Эти даты заняты")) {
+                    alert("Эти даты заняты");
+                }
                 loadData('/api/univer/bookings', 'booking-list', 'Список бронирований');
             })
             .catch(error => console.error('Ошибка при добавлении бронирования:', error));
@@ -967,7 +1019,21 @@ document.addEventListener('DOMContentLoaded', () => {
         })
             .then(response => response.text())
             .then(message => {
-                alert(message);
+                if(message.includes("Гость с указанным ID не существует")) {
+                    alert("Гость с указанным ID не существует");
+                }
+                if(message.includes("Комната с указанным ID не существует")) {
+                    alert("Комната с указанным ID не существует");
+                }
+                if(message.includes("Отели не совпадают")) {
+                    alert("Отели не совпадают");
+                }
+                if(message.includes("Дата заезда не может быть позже даты выезда")) {
+                    alert("Дата заезда не может быть позже даты выезда");
+                }
+                if(message.includes("Эти даты заняты")) {
+                    alert("Эти даты заняты");
+                }
                 loadData('/api/univer/bookings', 'booking-list', 'Список бронирований');
             })
             .catch(error => console.error('Ошибка при обновлении бронирования:', error));
@@ -982,9 +1048,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         fetch(`/api/univer/bookings/deleteBooking/${bookingId}`, { method: 'DELETE' })
-            .then(response => response.text())
-            .then(message => {
-                alert(message);
+            .then(response => {
+                if (!response.ok) {
+                    alert("Ошибка при удалении бронирования");
+                    throw new Error();
+                }
+                alert("Бронирование успешно удалено");
                 loadData('/api/univer/bookings', 'booking-list', 'Список бронирований');
             })
             .catch(error => console.error('Ошибка при удалении бронирования:', error));
@@ -998,9 +1067,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         fetch(`/api/univer/bookings/deleteBookingCascade/${bookingId}`, { method: 'DELETE' })
-            .then(response => response.text())
-            .then(message => {
-                alert(message);
+            .then(response => {
+                if (!response.ok) {
+                    alert("Ошибка при удалении бронирования");
+                    throw new Error();
+                }
+                alert("Бронирование успешно удалено");
                 loadData('/api/univer/bookings', 'booking-list', 'Список бронирований');
             })
             .catch(error => console.error('Ошибка при удалении бронирования:', error));
@@ -1100,7 +1172,9 @@ document.addEventListener('DOMContentLoaded', () => {
         })
             .then(response => response.text())
             .then(message => {
-                alert(message);
+                if(message.includes("Отель с указанным ID не существует")) {
+                    alert("Отель с указанным ID не существует");
+                }
                 loadData('/api/univer/provisions', 'provision-list', 'Список услуг');
             })
             .catch(error => console.error('Ошибка при добавлении услуги:', error));
@@ -1136,7 +1210,9 @@ document.addEventListener('DOMContentLoaded', () => {
         })
             .then(response => response.text())
             .then(message => {
-                alert(message);
+                if(message.includes("Бронирование с указанным ID не существует")) {
+                    alert("Бронирование с указанным ID не существует");
+                }
                 loadData('/api/univer/provisions', 'provision-list', 'Список услуг');
             })
             .catch(error => console.error('Ошибка при обновлении услуги:', error));
@@ -1151,10 +1227,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         fetch(`/api/univer/provisions/deleteProvision/${provisionId}`, { method: 'DELETE' })
-            .then(response => response.text())
-            .then(message => {
-                alert(message);
-                loadData('/api/univer/provisions', 'provision-list', 'Список услуг');
+            .then(response => {
+                if (!response.ok) {
+                    alert("Ошибка при удалении услуги");
+                    throw new Error();
+                }
+                alert("Услуга успешно удалена");
+                loadData('/api/univer/provisions', 'room-list', 'Список номеров');
             })
             .catch(error => console.error('Ошибка при удалении услуги:', error));
     }
@@ -1167,10 +1246,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         fetch(`/api/univer/provisions/deleteProvisionCascade/${provisionId}`, { method: 'DELETE' })
-            .then(response => response.text())
-            .then(message => {
-                alert(message);
-                loadData('/api/univer/provisions', 'provision-list', 'Список услуг');
+            .then(response => {
+                if (!response.ok) {
+                    alert("Ошибка при удалении услуги");
+                    throw new Error();
+                }
+                alert("Услуга успешно удалена");
+                loadData('/api/univer/provisions', 'room-list', 'Список номеров');
             })
             .catch(error => console.error('Ошибка при удалении услуги:', error));
     }
@@ -1182,7 +1264,7 @@ document.addEventListener('DOMContentLoaded', () => {
         provisions.forEach(item => {
             const div = document.createElement('div');
             div.className = 'item';
-            div.innerHTML = `<p>${item.provisionId} Услуга: ${item.provisionName || ''} в отеле ${item.hotel.name} (${item.hotel.hotelId}), цена: ${item.price || ''}$</p>`;
+            div.innerHTML = `<p>${item.provisionId} Услуга: ${item.provisionName || ''} в отеле ${item.hotel.name} (${item.hotel.hotelId}), цена: ${item.price || ''} руб</p>`;
             provisionList.appendChild(div);
         });
     }
@@ -1281,7 +1363,18 @@ document.addEventListener('DOMContentLoaded', () => {
         })
             .then(response => response.text())
             .then(message => {
-                alert(message);
+                if(message.includes("Бронирование с указанным ID не существует")) {
+                    alert("Бронирование с указанным ID не существует");
+                }
+                if(message.includes("Услуга с указанным ID не существует")) {
+                    alert("Услуга с указанным ID не существует");
+                }
+                if(message.includes("Такое бронирование уже существует")) {
+                    alert("Такое бронирование уже существует");
+                }
+                if(message.includes("Отели не совпадают")) {
+                    alert("Отели не совпадают");
+                }
                 loadData('/api/univer/bookingProvisions', 'booking-provision-list', 'Список бронирований');
             })
             .catch(error => console.error('Ошибка при добавлении бронирования услуги:', error));
@@ -1318,7 +1411,18 @@ document.addEventListener('DOMContentLoaded', () => {
         })
             .then(response => response.text())
             .then(message => {
-                alert(message);
+                if(message.includes("Бронирование с указанным ID не существует")) {
+                    alert("Бронирование с указанным ID не существует");
+                }
+                if(message.includes("Услуга с указанным ID не существует")) {
+                    alert("Услуга с указанным ID не существует");
+                }
+                if(message.includes("Такое бронирование уже существует")) {
+                    alert("Такое бронирование уже существует");
+                }
+                if(message.includes("Отели не совпадают")) {
+                    alert("Отели не совпадают");
+                }
                 loadData('/api/univer/bookingProvisions', 'booking-provision-list', 'Список бронирований');
             })
             .catch(error => console.error('Ошибка при обновлении бронирования услуги:', error));
@@ -1333,10 +1437,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         fetch(`/api/univer/bookingProvisions/deleteBookingProvision/${bookingProvisionId}`, { method: 'DELETE' })
-            .then(response => response.text())
-            .then(message => {
-                alert(message);
-                loadData('/api/univer/bookingProvisions', 'booking-provision-list', 'Список бронирований');
+            .then(response => {
+                if (!response.ok) {
+                    alert("Ошибка при удалении бронирования услуги");
+                    throw new Error();
+                }
+                alert("Бронирование услуги успешно удалено");
+                loadData('/api/univer/bookingProvisions', 'booking-list', 'Список бронирований');
             })
             .catch(error => console.error('Ошибка при удалении бронирования услуги:', error));
     }

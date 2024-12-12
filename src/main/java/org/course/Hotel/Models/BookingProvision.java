@@ -1,17 +1,11 @@
 package org.course.Hotel.Models;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity(name="BookingProvision")
 @Table(name = "BookingProvisions")
-@Getter
-@Setter
-@NoArgsConstructor
-@EqualsAndHashCode
+@Data
 public class BookingProvision {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

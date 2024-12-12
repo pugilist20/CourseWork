@@ -52,6 +52,9 @@ public class HotelService {
     }
 
     public void deleteHotel(Long id) {
+        if(hotelRepository.findById(id).isEmpty()){
+            throw new IllegalStateException("Такого отеля не существует");
+        }
         if (!roomRepository.findByHotelId(id).isEmpty()) {
             throw new IllegalStateException("Невозможно удалить отель с активными комнатами");
         }
@@ -62,6 +65,9 @@ public class HotelService {
     }
 
     public void deleteHotelCascade(Long id) {
+        if(hotelRepository.findById(id).isEmpty()){
+            throw new IllegalStateException("Такого отеля не существует");
+        }
         if (!provisionRepository.findByHotelId(id).isEmpty()) {
             List<Provision> list=provisionRepository.findByHotelId(id);
             for (Provision provision : list) {

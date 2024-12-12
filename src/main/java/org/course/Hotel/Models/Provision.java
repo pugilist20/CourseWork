@@ -1,17 +1,11 @@
 package org.course.Hotel.Models;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity(name="Provision")
 @Table(name = "Provisions")
-@Getter
-@Setter
-@NoArgsConstructor
-@EqualsAndHashCode
+@Data
 public class Provision {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +20,4 @@ public class Provision {
 
     @Column(name="price")
     private Double price;
-
-    // Getters and Setters
 }

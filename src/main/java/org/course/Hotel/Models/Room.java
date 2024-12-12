@@ -6,10 +6,7 @@
 
     @Entity (name="Room")
     @Table(name = "Rooms")
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @EqualsAndHashCode
+    @Data
     public class Room {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,12 +24,4 @@
 
         @Column(name="size")
         private Double size;
-
-        @Override
-        public String toString() {
-            return roomId+" Номер. " +
-                    "Отель: " + hotel.getName() +
-                    ", тип номера: " + roomType +
-                    ", цена: " + price;
-        }
-    }
+}

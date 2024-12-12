@@ -53,6 +53,9 @@ public class BookingService {
                 .orElseThrow(() -> new IllegalStateException("Гость с указанным ID не существует"));
         Room room = roomRepository.findById(bookingRequest.getRoomId())
                 .orElseThrow(() -> new IllegalStateException("Комната с указанным ID не существует"));
+        if(!bookingRepository.findByCheckInDateBetween(bookingRequest.getCheckInDate(), bookingRequest.getCheckOutDate()).isEmpty()){
+            throw new IllegalStateException("Эти даты заняты");
+        }
         if(!Objects.equals(guest.getHotel().getHotelId(), room.getHotel().getHotelId())) {
             throw new IllegalStateException("Отели не совпадают");
         }
@@ -79,6 +82,9 @@ public class BookingService {
         if(!Objects.equals(guest.getHotel().getHotelId(), room.getHotel().getHotelId())) {
             throw new IllegalStateException("Отели не совпадают");
         }
+        if(!bookingRepository.findByCheckInDateBetween(bookingRequest.getCheckInDate(), bookingRequest.getCheckOutDate()).isEmpty()){
+            throw new IllegalStateException("Эти даты заняты");
+        }
         Booking booking = new Booking();
         booking.setBookingId(bookingRequest.getBookingId());
         booking.setGuest(guest);
@@ -93,6 +99,9 @@ public class BookingService {
     }
 
     public void deleteBooking(Long id) {
+        if(bookingRepository.findById(id).isEmpty()){
+            throw new IllegalStateException("Такого бронирования не существует");
+        }
         if (!bookingProvisionRepository.findByBookingId(id).isEmpty()) {
             throw new IllegalStateException();
         }
@@ -100,6 +109,9 @@ public class BookingService {
     }
 
     public void deleteBookingCascade(Long id){
+        if(bookingRepository.findById(id).isEmpty()){
+            throw new IllegalStateException("Такого бронирования не существует");
+        }
         List<BookingProvision> list=bookingProvisionRepository.findByBookingId(id);
         if(!list.isEmpty()) {
             for (BookingProvision bp : list) {

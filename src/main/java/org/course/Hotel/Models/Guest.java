@@ -5,10 +5,7 @@ import lombok.*;
 
 @Entity(name="Guest")
 @Table(name="Guests")
-@Getter
-@Setter
-@NoArgsConstructor
-@EqualsAndHashCode
+@Data
 public class Guest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,13 +26,4 @@ public class Guest {
     @ManyToOne
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
-
-    @Override
-    public String toString() {
-        return guestId+ " Постоялец. " +
-                "Имя: " + firstName +
-                ", фамилия: " + lastName +
-                ", номер телефона" + phoneNumber +
-                ", почта: " + email;
-    }
 }

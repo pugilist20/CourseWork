@@ -11,6 +11,7 @@ body {
 /* Стили для навигации */
 nav {
     width: 100%;
+    font-size: larger;
     background-color: #333;
 }
 
@@ -41,7 +42,7 @@ nav {
     max-width: 800px;
     text-align: center;
     margin-top: 20px;
-    height: 200px;        /* Высота контейнера */
+    height: 300px;        /* Высота контейнера */
     overflow-y: auto;     /* Вертикальная прокрутка */
     border: 1px solid #ccc;  /* Граница вокруг списка */
     border-radius: 5px; /* Скругленные края */
@@ -102,18 +103,15 @@ button {
     display: flex;
     flex-direction: column; /* Располагаем кнопки вертикально */
     align-items: center; /* Центруем кнопки по горизонтали */
-    margin-top: 20px; /* Отступ сверху */
 }
 
 .scrollable-list {
 
 }
+
 ul {
     list-style-type: none; /* Убираем маркеры списка */
     padding: 0;
 }
-/*li {*/
-/*    padding: 8px;         !* Отступы внутри элементов списка *!*/
-/*    border-bottom: 1px solid #ddd;  !* Разделительная линия между элементами *!*/
-/*}*/
+
 

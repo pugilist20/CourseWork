@@ -2,7 +2,7 @@ package org.course.Hotel.Services;
 
 import lombok.AllArgsConstructor;
 import org.course.Hotel.DTO.RoomRequest;
-import org.course.Hotel.Enum.Type;
+import org.course.Hotel.Enums.Type;
 import org.course.Hotel.Models.Booking;
 import org.course.Hotel.Models.BookingProvision;
 import org.course.Hotel.Models.Hotel;
@@ -95,6 +95,9 @@ public class RoomService {
     }
 
     public void deleteRoom(Long id) {
+        if(roomRepository.findById(id).isEmpty()){
+            throw new IllegalStateException("Такого номера не существует");
+        }
         if (!bookingRepository.findByRoomId(id).isEmpty()) {
             throw new IllegalStateException("Невозможно удалить комнату, которая используется в бронированиях");
         }
@@ -102,6 +105,9 @@ public class RoomService {
     }
 
     public void deleteRoomCascade(Long id) {
+        if(roomRepository.findById(id).isEmpty()){
+            throw new IllegalStateException("Такого номера не существует");
+        }
         List<Booking> bookingList = bookingRepository.findByRoomId(id);
         if (!bookingList.isEmpty()) {
             for (Booking booking : bookingList) {

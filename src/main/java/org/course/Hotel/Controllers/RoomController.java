@@ -2,7 +2,6 @@ package org.course.Hotel.Controllers;
 
 import lombok.AllArgsConstructor;
 import org.course.Hotel.DTO.RoomRequest;
-import org.course.Hotel.Enum.Type;
 import org.course.Hotel.Models.Room;
 import org.course.Hotel.Services.RoomService;
 import org.springframework.web.bind.annotation.*;

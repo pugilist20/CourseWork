@@ -46,6 +46,12 @@ public class BookingProvisionService {
         if(!Objects.equals(booking.getRoom().getHotel().getHotelId(), provision.getHotel().getHotelId())){
             throw new IllegalStateException("Отели не совпадают");
         }
+        List<BookingProvision> bookingProvisionList=bookingProvisionRepository.findByBookingId(bookingProvisionRequest.getBookingId());
+        for(BookingProvision bookingProvision:bookingProvisionList){
+            if(bookingProvision.getProvision().getProvisionId().equals(provision.getProvisionId())){
+                throw new IllegalStateException("Такое бронирование уже существует");
+            }
+        }
         BookingProvision bookingProvision = new BookingProvision();
         bookingProvision.setBooking(booking);
         bookingProvision.setProvision(provision);
@@ -64,6 +70,12 @@ public class BookingProvisionService {
         bookingProvisionRepository.findById(bookingProvisionRequest.getBookingProvisionId())
                 .orElseThrow(() -> new IllegalStateException("Связи бронирование-услуга с указанным ID не существует"));
 
+        List<BookingProvision> bookingProvisionList=bookingProvisionRepository.findByBookingId(bookingProvisionRequest.getBookingId());
+        for(BookingProvision bookingProvision:bookingProvisionList){
+            if(bookingProvision.getProvision().getProvisionId().equals(provision.getProvisionId())){
+                throw new IllegalStateException("Такое бронирование уже существует");
+            }
+        }
         BookingProvision bookingProvision=new BookingProvision();
         bookingProvision.setBookingProvisionId(bookingProvisionRequest.getBookingProvisionId());
         bookingProvision.setBooking(booking);
@@ -73,6 +85,9 @@ public class BookingProvisionService {
     }
 
     public void deleteBookingProvision(Long id) {
+        if(bookingProvisionRepository.findById(id).isEmpty()){
+            throw new IllegalStateException("Такого бронирования услуги не существует");
+        }
         bookingProvisionRepository.deleteById(id);
     }
 }

@@ -60,6 +60,9 @@ public class ProvisionService {
     }
 
     public void deleteProvision(Long id) {
+        if(provisionRepository.findById(id).isEmpty()){
+            throw new IllegalStateException("Такой услуги не существует");
+        }
         if (!bookingProvisionRepository.findByProvisionId(id).isEmpty()) {
             throw new IllegalStateException("Невозможно удалить услугу, которая используется в бронированиях");
         }
@@ -67,6 +70,9 @@ public class ProvisionService {
     }
 
     public void deleteProvisionCascade(Long id) {
+        if(provisionRepository.findById(id).isEmpty()){
+            throw new IllegalStateException("Такой услуги не существует");
+        }
         List<BookingProvision> bookingProvisionList=bookingProvisionRepository.findByProvisionId(id);
         if(!bookingProvisionList.isEmpty()){
             for (BookingProvision bookingProvision : bookingProvisionList) {

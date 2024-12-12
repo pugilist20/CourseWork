@@ -2,7 +2,6 @@ package org.course.Hotel.Services;
 
 import lombok.AllArgsConstructor;
 import org.course.Hotel.DTO.GuestRequest;
-import org.course.Hotel.Enum.Type;
 import org.course.Hotel.Models.*;
 import org.course.Hotel.Repositories.BookingProvisionRepository;
 import org.course.Hotel.Repositories.BookingRepository;
@@ -10,7 +9,6 @@ import org.course.Hotel.Repositories.GuestRepository;
 import org.course.Hotel.Repositories.HotelRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,6 +74,9 @@ public class GuestService {
     }
 
     public void deleteGuest(Long id) {
+        if(guestRepository.findById(id).isEmpty()){
+            throw new IllegalStateException("Такого постояльца не существует");
+        }
         if (!bookingRepository.findByGuestId(id).isEmpty()) {
             throw new IllegalStateException("Невозможно удалить гостя с активными бронированиями");
         }
@@ -83,6 +84,9 @@ public class GuestService {
     }
 
     public void deleteGuestCascade(Long id){
+        if(guestRepository.findById(id).isEmpty()){
+            throw new IllegalStateException("Такого постояльца не существует");
+        }
         List<Booking> bookingList=bookingRepository.findByGuestId(id);
         if(!bookingList.isEmpty()){
             for (Booking booking : bookingList) {

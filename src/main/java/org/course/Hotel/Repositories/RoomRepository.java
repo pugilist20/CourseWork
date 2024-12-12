@@ -18,7 +18,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query("select r from Room r where r.roomType = :roomType")
     List<Room> findByRoomType(@Param("roomType") String roomType);
 
-    @Query("select r from Room r where r.size = :size")
+    @Query("select r from Room r where r.size > :size")
     List<Room> findBySize(@Param("size") Double size);
 
     @Modifying

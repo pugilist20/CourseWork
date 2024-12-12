@@ -92,7 +92,7 @@
 
         <div class="function">
             <input type="text" id="findGuestByHotelId" placeholder="Введите номер отеля">
-            <button onclick="findGuestByHotelId()">Найти постояльца по номеру отеля</button>
+            <button onclick="findGuestByHotelId()">Фильтр по номеру отеля</button>
         </div>
 
         <!-- Форма для добавления нового постояльца -->
@@ -134,18 +134,18 @@
         <!-- Форма для поиска номеров по типу -->
         <div class="function">
             <input type="text" id="roomType" placeholder="Введите тип номера">
-            <button onclick="findRoomsByType()">Найти номера по типу</button>
+            <button onclick="findRoomsByType()">Фильтр по типу</button>
         </div>
 
         <!-- Форма для поиска номеров по ID отеля -->
         <div class="function">
             <input type="number" id="findRoomsByHotelId" placeholder="Введите ID отеля">
-            <button onclick="findRoomsByHotelId()">Найти номера по ID отеля</button>
+            <button onclick="findRoomsByHotelId()">Фильтр по ID отеля</button>
         </div>
 
         <div class="function">
             <input type="number" step="0.1" id="findRoomsBySize" placeholder="Введите минимальную площадь номера">
-            <button onclick="findRoomsBySize()">Найти номера по площади</button>
+            <button onclick="findRoomsBySize()">Фильтр по площади</button>
         </div>
 
         <!-- Форма для добавления нового номера -->
@@ -153,6 +153,7 @@
             <input type="text" id="newRoomType" placeholder="Тип номера">
             <input type="number" id="newRoomHotelId" placeholder="ID отеля">
             <input type="number" id="newRoomPrice" placeholder="Цена номера">
+            <input type="number" id="newRoomSize" placeholder="Площадь номера">
             <button onclick="saveRoom()">Добавить номер</button>
         </div>
 
@@ -162,6 +163,7 @@
             <input type="number" id="updateRoomHotelId" placeholder="Новый ID отеля">
             <input type="text" id="updateRoomType" placeholder="Новый тип номера">
             <input type="number" id="updateRoomPrice" placeholder="Новая цена номера">
+            <input type="number" id="updateRoomSize" placeholder="Новая площадь номера">
             <button onclick="updateRoom()">Обновить номер</button>
         </div>
 
@@ -186,20 +188,20 @@
         <!-- Форма для поиска бронирования по ID постояльца -->
         <div class="function">
             <label for="bookingByGuestId"></label><input type="number" id="bookingByGuestId" placeholder="Введите ID постояльца">
-            <button onclick="findBookingsByGuestId()">Найти бронирования по ID постояльца</button>
+            <button onclick="findBookingsByGuestId()">Фильтр по ID постояльца</button>
         </div>
 
         <!-- Форма для поиска бронирования по ID номера -->
         <div class="function">
             <label for="bookingByRoomId"></label><input type="number" id="bookingByRoomId" placeholder="Введите ID номера">
-            <button onclick="findBookingsByRoomId()">Найти бронирования по ID номера</button>
+            <button onclick="findBookingsByRoomId()">Фильтр по ID номера</button>
         </div>
 
         <!-- Форма для поиска бронирования по диапазону дат -->
         <div class="function">
             <label for="checkInDate"></label><input type="date" id="checkInDate" placeholder="Дата заезда">
             <label for="checkOutDate"></label><input type="date" id="checkOutDate" placeholder="Дата выезда">
-            <button onclick="findBookingsByDateRange()">Найти бронирования по датам</button>
+            <button onclick="findBookingsByDateRange()">Фильтр по датам</button>
         </div>
 
         <!-- Форма для добавления нового бронирования -->
@@ -241,7 +243,7 @@
         <!-- Форма для поиска услуги по ID отеля -->
         <div class="function">
             <input type="number" id="provisionHotelId" placeholder="Введите ID отеля">
-            <button onclick="findProvisionByHotelId()">Найти услугу по ID отеля</button>
+            <button onclick="findProvisionByHotelId()">Фильтр по ID отеля</button>
         </div>
 
         <!-- Форма для добавления новой услуги -->
@@ -319,11 +321,6 @@
         </ul>
     </div>
 </section>
-
-
-
-
-
 <script src="js/script.js"></script>
 </body>
 

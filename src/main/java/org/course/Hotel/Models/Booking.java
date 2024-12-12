@@ -1,19 +1,13 @@
 package org.course.Hotel.Models;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Entity(name="Booking")
 @Table(name = "Bookings")
-@Getter
-@Setter
-@NoArgsConstructor
-@EqualsAndHashCode
+@Data
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,14 +26,5 @@ public class Booking {
 
     @Column(name="checkOutDate")
     private LocalDate checkOutDate;
-
-    @Override
-    public String toString() {
-        return "Бронирование. " +
-                guest +
-                room +
-                ", дата заезда: " + checkInDate +
-                ", дата выезда: " + checkOutDate;
-    }
 }
 
